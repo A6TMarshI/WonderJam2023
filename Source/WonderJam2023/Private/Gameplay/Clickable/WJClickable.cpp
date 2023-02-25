@@ -25,6 +25,7 @@ AWJClickable::AWJClickable()
 
 int AWJClickable::SpawnParticles()
 {
+	
 	if (Particle != nullptr && FMath::RandRange(0,10)==0 && ParticleCount<3)
 	{
 		FTransform ParticleT;
@@ -38,9 +39,9 @@ int AWJClickable::SpawnParticles()
 		{
 			UGameplayStatics::PlaySound2D( GetWorld(), SparkSound);
 		}
-		return ParticleCount++;
+		return ++ParticleCount;
 	}
-	else if(ParticleCount==3)
+	if(ParticleCount==3)
 	{
 		FTransform ParticleT;
 		ParticleT.SetLocation(GetActorLocation());
@@ -52,8 +53,9 @@ int AWJClickable::SpawnParticles()
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), ExplosionSound);
 		}
-		ParticleCount++;
+		return ++ParticleCount;
 	}
+	
 	return ParticleCount;
 }
 
