@@ -58,8 +58,8 @@ void UOnlineMenu::JoinSession(const FMultiplayerSessionSearchResult& Session)
 
 void UOnlineMenu::NativeDestruct()
 {
-	MenuTearDown();
 	Super::NativeDestruct();
+	MenuTearDown();
 }
 
 void UOnlineMenu::OnCreateSession(bool bWasSuccessful)
