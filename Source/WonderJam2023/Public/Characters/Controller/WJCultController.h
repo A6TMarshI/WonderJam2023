@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS(NotBlueprintable)
+UCLASS()
 class WONDERJAM2023_API AWJCultController : public AAIController
 {
 	GENERATED_BODY()
@@ -25,13 +25,23 @@ public:
 	UFUNCTION()
 	void RandomPatrol();
 
+	/*UPROPERTY(BlueprintReadOnly)
+	AWJCultCharacter* ControlledPawn;*/
+
+	UPROPERTY(Transient)
+	class UBehaviorTreeComponent* BehaviorTreeComponent;
+
+	UPROPERTY(Transient)
+	class UBlackboardComponent* BlackboardComponent;
+
 protected:
 	/** The cult pawn possessed by this controller */
-	UPROPERTY(BlueprintReadOnly)
-	AWJCultCharacter* ControlledPawn;
+	/*UPROPERTY(BlueprintReadOnly)
+	AWJCultCharacter* ControlledPawn;*/
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	virtual void OnPossess(APawn* InPawn) override;
 
 private:
 

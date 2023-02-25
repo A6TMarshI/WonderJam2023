@@ -15,6 +15,9 @@ public:
 	// Sets default values for this character's properties
 	AWJCultCharacter();
 
+	UPROPERTY(EditAnywhere, Category="AI")
+	class UBehaviorTree* BehaviorTree;
+
 	class AWJCultController* CultController;
 
 	void OnAIMoveCompleted(struct FAIRequestID RequestID, const struct FPathFollowingResult& Result);
