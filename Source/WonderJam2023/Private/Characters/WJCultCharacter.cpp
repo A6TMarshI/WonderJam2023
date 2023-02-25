@@ -14,7 +14,8 @@ AWJCultCharacter::AWJCultCharacter()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
+	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
+	MeshComponent->SetupAttachment(RootComponent);
 	SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
 	SphereCollider->SetupAttachment(RootComponent);
 	SphereCollider->SetSphereRadius(700.f);
