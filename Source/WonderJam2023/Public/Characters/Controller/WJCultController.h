@@ -28,6 +28,8 @@ public:
 	UPROPERTY(Transient)
 	class UBlackboardComponent* BlackboardComponent;
 
+	TObjectPtr<AWJCultCharacter> TargetToConvert;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
