@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "Characters/WJCultCharacter.h"
 #include "WJCultController.generated.h"
 
@@ -19,24 +18,25 @@ class WONDERJAM2023_API AWJCultController : public AAIController
 public:
 	AWJCultController(const FObjectInitializer& ObjectInitializer);
 
-	virtual void OnPossess(APawn* InPawn) override;
-	UBlackboardComponent* GetBlackboard() const { return BlackboardComponent; }
-
 	/** Calls the convert function of controlled pawn */
 	UFUNCTION(BlueprintCallable, Category = "Convert")
 	void StartConvert();
+
+	UFUNCTION()
+	void RandomPatrol();
 
 protected:
 	/** The cult pawn possessed by this controller */
 	UPROPERTY(BlueprintReadOnly)
 	AWJCultCharacter* ControlledPawn;
+	
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 private:
-	/** The component that starts the behavior tree */
-	UPROPERTY(Transient)
-	UBehaviorTreeComponent* BehaviorTreeComponent;
 
-	/** The component that initializes the blackboard */
-	UPROPERTY(Transient)
-	UBlackboardComponent* BlackboardComponent;
+	class UNavigationSystemV1* NavArea;
+
+	FVector RandomLocation;
+
 };
