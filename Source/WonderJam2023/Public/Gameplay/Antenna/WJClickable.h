@@ -3,17 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WJAntennaParticlesSpawn.h"
+#include "WJClickableParticlesSpawn.h"
 #include "GameFramework/Actor.h"
-#include "WJAntenna.generated.h"
+#include "WJClickable.generated.h"
 
+class UWJClickableParticlesSpawn;
 UCLASS()
-class WONDERJAM2023_API AWJAntenna : public AActor
+class WONDERJAM2023_API AWJClickable : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AWJAntenna();
+	AWJClickable();
 
 	int SpawnParticles();
 
@@ -30,6 +31,11 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Particles")
 	class UParticleSystem* Particle;
 
+	UPROPERTY(EditAnywhere, Category="Particles")
+	FVector ParticleSize;
+	UPROPERTY(EditAnywhere, Category="Particles")
+	int ParticleExplosionSizeModifier;
+
 	TArray<UParticleSystemComponent*> SparkParticles; 
 
 	int ParticleCount;
@@ -38,7 +44,7 @@ protected:
 	class UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(EditAnywhere, Category="SpawnLocation", meta = (AllowPrivateAccess = "true"))
-	TArray<UWJAntennaParticlesSpawn*> AntennaParticlesSpawns;
+	TArray<UWJClickableParticlesSpawn*> AntennaParticlesSpawns;
 
 	
 	

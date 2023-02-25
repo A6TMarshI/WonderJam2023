@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Gameplay/Antenna/WJAntennaParticlesSpawn.h"
+#include "Gameplay/Antenna/WJClickableParticlesSpawn.h"
 
 
-UWJAntennaParticlesSpawn::UWJAntennaParticlesSpawn()
+UWJClickableParticlesSpawn::UWJClickableParticlesSpawn()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
@@ -12,7 +12,7 @@ UWJAntennaParticlesSpawn::UWJAntennaParticlesSpawn()
 }
 
 
-void UWJAntennaParticlesSpawn::BeginPlay()
+void UWJClickableParticlesSpawn::BeginPlay()
 {
 	Super::BeginPlay();
 

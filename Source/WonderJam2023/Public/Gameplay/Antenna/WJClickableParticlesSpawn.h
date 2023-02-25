@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "WJAntennaParticlesSpawn.generated.h"
+#include "WJClickableParticlesSpawn.generated.h"
 
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class WONDERJAM2023_API UWJAntennaParticlesSpawn : public UMeshComponent
+class WONDERJAM2023_API UWJClickableParticlesSpawn : public UMeshComponent
 {
 	GENERATED_BODY()
 
 public:
-	UWJAntennaParticlesSpawn();
+	UWJClickableParticlesSpawn();
 
 protected:
 	virtual void BeginPlay() override;
