@@ -2,8 +2,8 @@
 
 
 #include "Player/WJPlayerCharacter.h"
+//#include <ocidl.h>   //Commented due to bug.
 
-#include <ocidl.h>
 
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
