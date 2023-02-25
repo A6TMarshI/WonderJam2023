@@ -7,6 +7,8 @@
 #include "GameFramework/Pawn.h"
 #include "WJPlayerCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClickableDestroyedDelegate);
+
 UCLASS()
 class WONDERJAM2023_API AWJPlayerCharacter : public APawn
 {
@@ -23,6 +25,9 @@ class WONDERJAM2023_API AWJPlayerCharacter : public APawn
 	/** Movement Component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UFloatingPawnMovement* MovementComponent;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnClickableDestroyedDelegate OnClickableDestroyedDelegate;
 
 	
 

@@ -7,6 +7,8 @@
 #include "GameFramework/Actor.h"
 #include "WJClickable.generated.h"
 
+
+
 class UWJClickableParticlesSpawn;
 UCLASS()
 class WONDERJAM2023_API AWJClickable : public AActor

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Gameplay/Antenna/WJClickable.h"
+#include "Gameplay/Clickable/WJClickable.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -25,6 +25,7 @@ AWJClickable::AWJClickable()
 
 int AWJClickable::SpawnParticles()
 {
+	
 	if (Particle != nullptr && FMath::RandRange(0,10)==0 && ParticleCount<3)
 	{
 		FTransform ParticleT;
@@ -38,9 +39,9 @@ int AWJClickable::SpawnParticles()
 		{
 			UGameplayStatics::PlaySound2D( GetWorld(), SparkSound);
 		}
-		return ParticleCount++;
+		return ++ParticleCount;
 	}
-	else if(ParticleCount==3)
+	if(ParticleCount==3)
 	{
 		FTransform ParticleT;
 		ParticleT.SetLocation(GetActorLocation());
@@ -52,8 +53,9 @@ int AWJClickable::SpawnParticles()
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), ExplosionSound);
 		}
-		ParticleCount++;
+		return ++ParticleCount;
 	}
+	
 	return ParticleCount;
 }
 

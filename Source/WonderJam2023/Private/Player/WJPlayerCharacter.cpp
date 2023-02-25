@@ -8,7 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
-#include "Gameplay/Antenna/WJClickable.h"
+#include "Gameplay/Clickable/WJClickable.h"
 #include "GameplayTags/WJGameplayTags.h"
 #include "Inputs/WJTaggedInputComponent.h"
 
@@ -33,6 +33,7 @@ AWJPlayerCharacter::AWJPlayerCharacter()
 	// Add movement component
 	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Floating Movement Component"));
 	SphereCollision->SetupAttachment(RootComponent);
+	
 	
 }
 
@@ -92,13 +93,13 @@ void AWJPlayerCharacter::InputInteract(const FInputActionValue& Value)
 				GEngine->AddOnScreenDebugMessage(-1,220,FColor::Cyan,FString::Printf(TEXT("Clicked on actor : %s"), *HitActor->GetName()));
 			if(auto* Clickable = Cast<AWJClickable>(HitActor))
 			{
-				if(Clickable->SpawnParticles()>=3)
+				if(Clickable->SpawnParticles()==3)
 				{
-					
 					FTimerHandle TimerHandle;
 
-					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [Clickable]()
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [Clickable,this]()
 					{
+						OnClickableDestroyedDelegate.Broadcast();
 						Clickable->Destroy();
 					},  Clickable->ExplosionDelay, false);
 					
