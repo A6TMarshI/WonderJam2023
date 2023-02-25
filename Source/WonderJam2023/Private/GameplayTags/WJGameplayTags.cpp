@@ -5,3 +5,4 @@
 
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_Input_Move, "Input.Move")
+UE_DEFINE_GAMEPLAY_TAG(TAG_Input_Zoom, "Input.Zoom")
