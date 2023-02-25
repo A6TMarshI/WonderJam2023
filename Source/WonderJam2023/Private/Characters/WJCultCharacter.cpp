@@ -30,10 +30,30 @@ void AWJCultCharacter::Convert()
 {
 }
 
-void AWJCultCharacter::OnCharacterDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void AWJCultCharacter::TryToConvert(AWJCultCharacter* Target)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("We got a collision."));
+	
+}
+
+void AWJCultCharacter::SeekTarget()
+{
+	CultController->MoveToLocation(TargetToConvert->GetActorLocation(), StoppingDistance, true);
+}
+
+void AWJCultCharacter::OnCharacterDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+                                           UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(bIsConverted)
+	{
+		TargetToConvert = Cast<AWJCultCharacter>(OtherActor);
+		if (TargetToConvert)
+		{
+			if(!TargetToConvert->bIsConverted)
+			{
+				SeekTarget();
+			}
+		}
+	}
 }
 
 // Called when the game starts or when spawned
