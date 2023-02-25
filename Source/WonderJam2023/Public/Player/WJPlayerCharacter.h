@@ -24,6 +24,8 @@ class WONDERJAM2023_API AWJPlayerCharacter : public APawn
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UFloatingPawnMovement* MovementComponent;
 
+	
+
 public:
 	// Sets default values for this pawn's properties
 	AWJPlayerCharacter();
