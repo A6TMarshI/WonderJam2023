@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "Gameplay/Antenna/WJClickable.h"
 #include "GameplayTags/WJGameplayTags.h"
 #include "Inputs/WJTaggedInputComponent.h"
 
@@ -89,6 +90,21 @@ void AWJPlayerCharacter::InputInteract(const FInputActionValue& Value)
 		{
 			if(GEngine)
 				GEngine->AddOnScreenDebugMessage(-1,220,FColor::Cyan,FString::Printf(TEXT("Clicked on actor : %s"), *HitActor->GetName()));
+			if(auto* Antenna = Cast<AWJClickable>(HitActor))
+			{
+				if(Antenna->SpawnParticles()>=3)
+				{
+					float Delay = 1;
+					FTimerHandle TimerHandle;
+
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [Antenna]()
+					{
+						Antenna->Destroy();
+					},  Delay, false);
+					
+				}
+					
+			}
 		}
 	}
 }
