@@ -18,6 +18,9 @@ public:
 
 	int SpawnParticles();
 
+	UPROPERTY(EditAnywhere, Category="Delay")
+	int ExplosionDelay;
+
 protected:
 	virtual void BeginPlay() override;
 protected:
@@ -27,6 +30,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	class USoundBase* ExplosionSound;
+
+	
 
 	UPROPERTY(EditAnywhere, Category="Particles")
 	class UParticleSystem* Particle;
