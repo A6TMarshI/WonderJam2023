@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "Characters/WJCultCharacter.h"
 #include "WJCultController.generated.h"
 
