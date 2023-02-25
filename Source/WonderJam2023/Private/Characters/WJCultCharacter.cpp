@@ -16,12 +16,12 @@ AWJCultCharacter::AWJCultCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	MeshComponent->SetupAttachment(RootComponent);
-	SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
-	SphereCollider->SetupAttachment(RootComponent);
-	SphereCollider->SetSphereRadius(700.f);
-	SphereCollider->SetGenerateOverlapEvents(true);
-	SphereCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-	SphereCollider->bHiddenInGame = true;
+	ChaseSphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
+	ChaseSphereCollider->SetupAttachment(RootComponent);
+	ChaseSphereCollider->SetSphereRadius(700.f);
+	ChaseSphereCollider->SetGenerateOverlapEvents(true);
+	ChaseSphereCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	ChaseSphereCollider->bHiddenInGame = true;
 }
 
 
@@ -34,7 +34,7 @@ void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedCom
 	if(bIsConvertedToCult)
 	{
 		auto Target = Cast<AWJCultCharacter>(OtherActor);
-		if (!Target->bIsConvertedToCult)
+		if (!Target->GetIsConverted())
 		{
 			auto AIController = Cast<AWJCultController>(GetController());
 			if (AIController)
@@ -46,11 +46,22 @@ void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedCom
 	}
 }
 
+bool AWJCultCharacter::GetIsConverted()
+{
+	return bIsConvertedToCult;
+}
+
+void AWJCultCharacter::ConvertToCult()
+{
+	bIsConvertedToCult = true;
+	MeshComponent->SetSkeletalMesh(CultMesh);
+}
+
 // Called when the game starts or when spawned
 void AWJCultCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AWJCultCharacter::OnNonConvertedDetected);
+	ChaseSphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AWJCultCharacter::OnNonConvertedDetected);
 }
 
 
