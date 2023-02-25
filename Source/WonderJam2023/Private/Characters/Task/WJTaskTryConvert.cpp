@@ -15,8 +15,7 @@ EBTNodeResult::Type UWJTaskTryConvert::ExecuteTask(UBehaviorTreeComponent& Owner
 			int chance = FMath::RandRange(1, 4);
 			if(chance == 1)
 			{
-				OwnerController->TargetToConvert->bIsConvertedToCult = true;
-				OwnerController->TargetToConvert->MeshComponent->SetSkeletalMesh(OwnerController->TargetToConvert->CultMesh);
+				OwnerController->TargetToConvert->ConvertToCult();
 				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("converted"));
 			}
 			OwnerComp.GetBlackboardComponent()->ClearValue(FName("TargetToConvert"));
