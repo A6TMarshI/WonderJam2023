@@ -18,22 +18,13 @@ AWJCultController::AWJCultController(const FObjectInitializer& ObjectInitializer
 
 void AWJCultController::StartConvert()
 {
-	//ControlledPawn->Convert();
+	
 }
 
-void AWJCultController::RandomPatrol()
-{
-	/*NavArea->K2_GetRandomReachablePointInRadius(GetWorld(), GetPawn()->GetActorLocation(),
-		   RandomLocation, 15000.0f);
-
-	MoveToLocation(RandomLocation);*/
-}
 
 void AWJCultController::BeginPlay()
 {
 	Super::BeginPlay();
-	/*NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
-	RandomPatrol();*/
 }
 
 void AWJCultController::OnPossess(APawn* InPawn)
