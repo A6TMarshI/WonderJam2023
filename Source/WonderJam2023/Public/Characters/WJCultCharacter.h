@@ -17,12 +17,11 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="AI")
 	class UBehaviorTree* BehaviorTree;
-
-	class AWJCultController* CultController;
-
-	void OnAIMoveCompleted(struct FAIRequestID RequestID, const struct FPathFollowingResult& Result);
-
+	
 	void Convert();
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bIsConvertedToCult = false;
 
 protected:
 	// Called when the game starts or when spawned

@@ -22,12 +22,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Convert")
 	void StartConvert();
 
-	UFUNCTION()
-	void RandomPatrol();
-
-	/*UPROPERTY(BlueprintReadOnly)
-	AWJCultCharacter* ControlledPawn;*/
-
 	UPROPERTY(Transient)
 	class UBehaviorTreeComponent* BehaviorTreeComponent;
 
@@ -35,18 +29,8 @@ public:
 	class UBlackboardComponent* BlackboardComponent;
 
 protected:
-	/** The cult pawn possessed by this controller */
-	/*UPROPERTY(BlueprintReadOnly)
-	AWJCultCharacter* ControlledPawn;*/
-	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* InPawn) override;
-
-private:
-
-	class UNavigationSystemV1* NavArea;
-
-	FVector RandomLocation;
-
+	
 };
