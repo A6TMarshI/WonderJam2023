@@ -3,6 +3,8 @@
 
 #include "Player/WJPlayerCharacter.h"
 
+#include <ocidl.h>
+
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
@@ -65,6 +67,32 @@ void AWJPlayerCharacter::InputZoom(const FInputActionValue& Value)
 	}
 }
 
+void AWJPlayerCharacter::InputInteract(const FInputActionValue& Value)
+{
+	const auto bIsInteract = Value.Get<bool>();
+
+	if(Controller==nullptr || bIsInteract==false)return;
+
+	APlayerController* PlayerController = Cast<APlayerController>(Controller);
+
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
+	ObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic));
+	
+	FHitResult HitResult;
+	PlayerController->GetHitResultUnderCursorForObjects(ObjectTypes, false, HitResult);
+
+	if(HitResult.bBlockingHit)
+	{
+		AActor* HitActor = HitResult.GetActor();
+
+		if (HitActor)
+		{
+			if(GEngine)
+				GEngine->AddOnScreenDebugMessage(-1,220,FColor::Cyan,FString::Printf(TEXT("Clicked on actor : %s"), *HitActor->GetName()));
+		}
+	}
+}
+
 // Called when the game starts or when spawned
 void AWJPlayerCharacter::BeginPlay()
 {
@@ -91,5 +119,13 @@ void AWJPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	
 	TaggedInputComponent->BindActionsByTag(InputConfig, TAG_Input_Zoom, ETriggerEvent::Triggered
 		, this, &AWJPlayerCharacter::InputZoom);
+	TaggedInputComponent->BindActionsByTag(InputConfig, TAG_Input_Interact, ETriggerEvent::Triggered
+		,this,&ThisClass::InputInteract);
+}
+
+void AWJPlayerCharacter::BoxTrace(const FVector& MouseLocation)
+{
+	FVector StartLocation = MouseLocation;
+	
 }
 

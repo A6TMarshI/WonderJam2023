@@ -35,6 +35,9 @@ public:
 	/** Called for movement input */
 	UFUNCTION()
 	void InputZoom(const FInputActionValue& Value);
+	
+	UFUNCTION()
+	void InputInteract(const FInputActionValue& Value);
 
 protected:
 	// Called when the game starts or when spawned
@@ -44,6 +47,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
 	class UWJInputConfig* InputConfig;
 
+	UFUNCTION()
+	void BoxTrace(const FVector& MouseLocation);
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -51,3 +57,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };
+
+
