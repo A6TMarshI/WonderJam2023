@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Gameplay/Antenna/WJClickableParticlesSpawn.h"
+#include "Gameplay/Clickable/WJClickableParticlesSpawn.h"
 
 
 UWJClickableParticlesSpawn::UWJClickableParticlesSpawn()

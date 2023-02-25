@@ -8,7 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
-#include "Gameplay/Antenna/WJClickable.h"
+#include "Gameplay/Clickable/WJClickable.h"
 #include "GameplayTags/WJGameplayTags.h"
 #include "Inputs/WJTaggedInputComponent.h"
 
