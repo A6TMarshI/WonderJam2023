@@ -6,24 +6,19 @@
 #include "NavigationSystem.h"
 #include "AI/NavigationSystemBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/WJCultCharacter.h"
 #include "Characters/Controller/WJCultController.h"
 #include "Kismet/GameplayStatics.h"
 
 EBTNodeResult::Type UWJTaskMoveToCultBase::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	NavigationSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
-
-	if(NavigationSystem)
+	if(auto* OwnerController = Cast<AWJCultController>(OwnerComp.GetOwner()))
 	{
-		TArray<AActor*> FoundPointOfInterest;
-		FName TagToFind = TEXT("PoI-CultBase");
-		UWorld* world = GetWorld();
-		UGameplayStatics::GetAllActorsWithTag(world, TagToFind, FoundPointOfInterest);
-
-		if(!FoundPointOfInterest.IsEmpty())
+		if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
 		{
-			TargetLocation =  FoundPointOfInterest[0]->GetTargetLocation();
-			OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), TargetLocation);
+			AICharacter->Faith = 100;
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Have Mercy God"));
+			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("bNeedToPray"), false);
 			return EBTNodeResult::Succeeded;
 		}
 	}

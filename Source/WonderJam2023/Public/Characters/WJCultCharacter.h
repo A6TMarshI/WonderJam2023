@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Controller/WJCultController.h"
 #include "GameFramework/Character.h"
 #include "WJCultCharacter.generated.h"
 
+class AWJCultController;
 UCLASS()
 class WONDERJAM2023_API AWJCultCharacter : public ACharacter
 {
@@ -31,16 +33,57 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	USkeletalMesh* CultMesh;
+	UPROPERTY(EditAnywhere)
+	int	Food = 100;
+	UPROPERTY(EditAnywhere)
+	int	Health = 3;
+	UPROPERTY(EditAnywhere)
+	int	Faith = 0;
+	UPROPERTY(EditAnywhere)
+	float DecreaseNeedTime = 5.0f;
+	UPROPERTY(EditAnywhere)
+	int FoodRateModifier = 5;
+	UPROPERTY(EditAnywhere)
+	int FaithRateModifier = 5;
 
 	bool bIsTargeted = false;
 
-	bool GetIsConverted();
 
+	void HasEaten();
+	void ResetFoodModifier();
+	void ResetPrayingModifier();
+	void HasPrayed();
+	bool GetIsConverted();
+	void Heal();
+	void Hurt();
 	void ConvertToCult();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	
+	/* Handle to manage the timer */
+	FTimerHandle NeedTimerHandle;
+	FTimerHandle EatenBuffTimerHandle;
+	FTimerHandle PrayedBuffTimerHandle;
+	FTimerDelegate TimerDelegate;
+	UWorld* world;
+	TArray<AActor*> FoundPointOfInterest;
+	AWJCultController* AIController; 
+
+
+	void UpdateNeed();
+
+	bool CharacterNeedToEat() const;
+	void GoToRestaurant();
+	bool CharacterNeedToPray() const;
+	void GoToBaseToPray();
+	bool CharacterIsHurt() const;
+	void GoToHospitalToHeal();
+	void UpdateBehaviourToNeed();
+	
+
+	
 	UPROPERTY(EditAnywhere)
 	bool bIsConvertedToCult = false;
 };

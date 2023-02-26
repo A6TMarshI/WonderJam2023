@@ -6,18 +6,22 @@
 #include "NavigationSystem.h"
 #include "AI/NavigationSystemBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/WJCultCharacter.h"
 #include "Characters/Controller/WJCultController.h"
 #include "Kismet/GameplayStatics.h"
 
 EBTNodeResult::Type UWJTaskMoveToRestaurant::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	NavigationSystem = FNavigationSystem::GetCurrent<UNavigationSystemV1>(UGameplayStatics::GetPlayerPawn(GetWorld(),0));
-
-	if(NavigationSystem)
+	
+	if(auto* OwnerController = Cast<AWJCultController>(OwnerComp.GetOwner()))
 	{
-		TargetLocation = PoIRestaurant->GetTransform().GetLocation();
-		OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), TargetLocation);
-		return EBTNodeResult::Succeeded;
+		if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
+		{
+			AICharacter->Food = 100;
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Has eaten"));
+			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("bNeedToEat"), false);
+			return EBTNodeResult::Succeeded;
+		}
 	}
 	
 	return EBTNodeResult::Failed;

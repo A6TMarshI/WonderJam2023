@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Characters/WJCultCharacter.h"
 #include "WJCultController.generated.h"
 
+
+class AWJCultCharacter;
 /**
  * 
  */
@@ -30,6 +31,18 @@ public:
 
 	TObjectPtr<AWJCultCharacter> TargetToConvert;
 
+	UPROPERTY(EditAnywhere)
+	bool bNeedToEat = false;
+	UPROPERTY(EditAnywhere)
+	bool bNeedToPray = false;
+	UPROPERTY(EditAnywhere)
+	bool bIsFleeing = false;
+	UPROPERTY(EditAnywhere)
+	bool bIsHurt = false;
+	UPROPERTY(EditAnywhere)
+	bool bCanChangeState = true;
+
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

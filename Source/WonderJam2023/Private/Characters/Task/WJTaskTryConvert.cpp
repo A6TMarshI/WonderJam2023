@@ -6,6 +6,7 @@
 #include "AI/NavigationSystemBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/Controller/WJCultController.h"
+#include "Characters/WJCultCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 EBTNodeResult::Type UWJTaskTryConvert::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
