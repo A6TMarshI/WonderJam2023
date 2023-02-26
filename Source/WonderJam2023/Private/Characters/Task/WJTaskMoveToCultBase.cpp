@@ -17,6 +17,7 @@ EBTNodeResult::Type UWJTaskMoveToCultBase::ExecuteTask(UBehaviorTreeComponent& O
 		if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
 		{
 			AICharacter->Faith = 100;
+			AICharacter->OnPray(5);
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Have Mercy God"));
 			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("bNeedToPray"), false);
 			return EBTNodeResult::Succeeded;

@@ -51,6 +51,14 @@ public:
 
 	bool bIsTargeted = false;
 
+	bool bisLuckyToConvert = false;
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnPray(float time);
+	UFUNCTION(BlueprintNativeEvent)
+	void OnTalk(float time);
+	UFUNCTION(BlueprintNativeEvent)
+	void OnIdle(float time);
 	AWJPointOfInterestAssistant* PointOfInterestAssistant;
 	UPROPERTY(EditAnywhere)
 	bool bIsArrested = false;

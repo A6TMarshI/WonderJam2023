@@ -5,6 +5,8 @@
 //#include <ocidl.h>   //Commented due to bug.
 
 
+#include "BehaviorTree/BehaviorTreeComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Characters/WJCultCharacter.h"
 #include "Components/SphereComponent.h"
@@ -115,6 +117,46 @@ void AWJPlayerCharacter::BeginPlay()
 void AWJPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AWJPlayerCharacter::MakeSacrifice(FVector3d Location)
+{
+	TArray<FHitResult> OutHits;
+	FCollisionShape ColSphere = FCollisionShape::MakeSphere(1000.f);
+	bool isHit = GetWorld()->SweepMultiByChannel(OutHits, Location, Location, FQuat::Identity, ECC_WorldStatic, ColSphere);
+	int NeededConvert = 0;
+	TArray<AWJCultCharacter*> Sacrifiers;
+	if(isHit)
+	{
+		for(auto& Hit : OutHits)
+		{
+			auto Character = Cast<AWJCultCharacter>(Hit.GetActor());
+			if(Character)
+			{
+				if(Character->GetIsConverted())
+				{
+					if(!Sacrifiers.Contains(Character))
+					{
+						NeededConvert++;
+						Sacrifiers.Add(Character);
+					}
+				}
+			}
+			if(NeededConvert==3)
+				break;
+		}
+		GEngine->AddOnScreenDebugMessage(-1,5,FColor::Green, FString::Printf(TEXT("needconvert : %d"),NeededConvert));
+		if(NeededConvert<3)
+		{
+			GEngine->AddOnScreenDebugMessage(-1,5,FColor::Green, TEXT("not enough sacrifiers"));
+			return;
+		}
+		for(auto& Sacrifier : Sacrifiers)
+		{
+			auto CultController = Cast<AWJCultController>(Sacrifier->GetController());
+			CultController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsVector(FName("SacrifyLocation"), Location);
+		}
+	}
 }
 
 // Called to bind functionality to input

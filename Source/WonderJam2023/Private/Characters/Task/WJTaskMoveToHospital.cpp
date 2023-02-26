@@ -17,6 +17,7 @@ EBTNodeResult::Type UWJTaskMoveToHospital::ExecuteTask(UBehaviorTreeComponent& O
 		if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
 		{
 			AICharacter->Heal();
+			AICharacter->OnIdle(5);
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Has been healed"));
 			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("bIsHurt"), false);
 			return EBTNodeResult::Succeeded;

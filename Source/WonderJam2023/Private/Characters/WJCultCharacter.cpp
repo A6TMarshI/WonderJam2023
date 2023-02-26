@@ -53,6 +53,18 @@ void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedCom
 	}
 }
 
+void AWJCultCharacter::OnPray_Implementation(float time)
+{
+}
+
+void AWJCultCharacter::OnTalk_Implementation(float time)
+{
+}
+
+void AWJCultCharacter::OnIdle_Implementation(float time)
+{
+}
+
 void AWJCultCharacter::Arrest()
 {
 	bIsArrested = true;
