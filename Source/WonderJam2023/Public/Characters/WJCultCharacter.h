@@ -27,7 +27,7 @@ public:
 	class USphereComponent* ChaseSphereCollider;
 
 	//set up sphere collider to seek for non converted;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mesh")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshCustom")
 	USkeletalMeshComponent* MeshComponent;
 
 	UFUNCTION()
