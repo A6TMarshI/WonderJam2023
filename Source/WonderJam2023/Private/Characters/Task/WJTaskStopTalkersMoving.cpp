@@ -5,6 +5,7 @@
 #include "NavigationSystem.h"
 #include "AI/NavigationSystemBase.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/WJCultCharacter.h"
 #include "Characters/Controller/WJCultController.h"
 #include "Kismet/GameplayStatics.h"
 

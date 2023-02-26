@@ -7,7 +7,7 @@
 #include "GameFramework/Character.h"
 #include "WJCultCharacter.generated.h"
 
-class AWJCultController;
+
 UCLASS()
 class WONDERJAM2023_API AWJCultCharacter : public ACharacter
 {

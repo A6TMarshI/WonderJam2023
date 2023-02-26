@@ -84,7 +84,8 @@ void AWJCultCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	ChaseSphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AWJCultCharacter::OnNonConvertedDetected);
-	auto AIController = Cast<AWJCultController>(GetController());
+	//auto
+	AIController = Cast<AWJCultController>(GetController());
 	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsConvertedToCult"), bIsConvertedToCult);
 	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), false);
 	
