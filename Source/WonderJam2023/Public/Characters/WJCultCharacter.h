@@ -50,6 +50,14 @@ public:
 
 	bool bIsTargeted = false;
 
+	bool bisLuckyToConvert = false;
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnPray(float time);
+	UFUNCTION(BlueprintNativeEvent)
+	void OnTalk(float time);
+	UFUNCTION(BlueprintNativeEvent)
+	void OnIdle(float time);
 	UPROPERTY(EditAnywhere)
 	bool bIsArrested = false;
 
@@ -103,5 +111,4 @@ protected:
 	
 	UPROPERTY(EditAnywhere)
 	bool bIsConvertedToCult = false;
-
 };
