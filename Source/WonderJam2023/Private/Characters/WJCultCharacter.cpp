@@ -7,7 +7,9 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/SphereComponent.h"
+#include "Gameplay/WJPointOfInterestAssistant.h"
 #include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 AWJCultCharacter::AWJCultCharacter()
@@ -98,6 +100,16 @@ void AWJCultCharacter::BeginPlay()
 	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), false);
 	
 	world = GetWorld();
+	UGameplayStatics::GetAllActorsWithTag(world, "PoIAssistant", FoundPointOfInterest);
+	if(FoundPointOfInterest.IsEmpty())
+	{
+		PointOfInterestAssistant = Cast<AWJPointOfInterestAssistant>(FoundPointOfInterest[0]);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("PoIAssistant cant be found"));
+	}
+	
 	GetWorld()->GetTimerManager().SetTimer(NeedTimerHandle, this, &AWJCultCharacter::UpdateNeed, DecreaseNeedTime, true );
 	
 }
@@ -121,18 +133,9 @@ bool AWJCultCharacter::CharacterNeedToEat() const
 
 void AWJCultCharacter::GoToRestaurant()
 {
-	UGameplayStatics::GetAllActorsWithTag(world, "PoI-Restaurant", FoundPointOfInterest);
-	if(!FoundPointOfInterest.IsEmpty())
-	{
-		FVector3d target=  FoundPointOfInterest[0]->GetTargetLocation();
-		AIController->GetBlackboardComponent()->SetValueAsBool(FName("bNeedToEat"), true);
-		AIController->GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), target);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Munching time"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Cant find restaurant"));
-	}
+	AIController->GetBlackboardComponent()->SetValueAsBool(FName("bNeedToEat"), true);
+	AIController->GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), PointOfInterestAssistant->GetPointOfInterest(Restaurant));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Munching time"));
 }
 
 bool AWJCultCharacter::CharacterNeedToPray() const
@@ -142,18 +145,9 @@ bool AWJCultCharacter::CharacterNeedToPray() const
 
 void AWJCultCharacter::GoToBaseToPray()
 {
-	UGameplayStatics::GetAllActorsWithTag(world, "PoI-CultBase", FoundPointOfInterest);
-	if(!FoundPointOfInterest.IsEmpty())
-	{
-		FVector3d target=  FoundPointOfInterest[0]->GetTargetLocation();
-		AIController->GetBlackboardComponent()->SetValueAsBool(FName("bNeedToPray"), true);
-		AIController->GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), target);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("OH! My God time"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Wheres the base again?"));
-	}
+	AIController->GetBlackboardComponent()->SetValueAsBool(FName("bNeedToPray"), true);
+	AIController->GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), PointOfInterestAssistant->GetPointOfInterest(CultBase));
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("OH! My God time"));
 }
 
 bool AWJCultCharacter::CharacterIsHurt() const
@@ -163,18 +157,9 @@ bool AWJCultCharacter::CharacterIsHurt() const
 
 void AWJCultCharacter::GoToHospitalToHeal()
 {
-	UGameplayStatics::GetAllActorsWithTag(world, "PoI-Hospital", FoundPointOfInterest);
-	if(!FoundPointOfInterest.IsEmpty())
-	{
-		FVector3d target=  FoundPointOfInterest[0]->GetTargetLocation();
 		AIController->GetBlackboardComponent()->SetValueAsBool(FName("bIsHurt"), true);
-		AIController->GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), target);
+		AIController->GetBlackboardComponent()->SetValueAsVector(FName("TargetLocation"), PointOfInterestAssistant->GetPointOfInterest(Hospital));
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Wahhbulance"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Need a doctor!"));
-	}
 }
 
 void AWJCultCharacter::UpdateBehaviourToNeed()

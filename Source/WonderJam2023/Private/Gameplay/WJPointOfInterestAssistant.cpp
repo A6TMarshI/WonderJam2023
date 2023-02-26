@@ -3,6 +3,8 @@
 
 #include "Gameplay/WJPointOfInterestAssistant.h"
 
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 AWJPointOfInterestAssistant::AWJPointOfInterestAssistant()
@@ -13,7 +15,6 @@ AWJPointOfInterestAssistant::AWJPointOfInterestAssistant()
 
 FVector3d AWJPointOfInterestAssistant::GetPointOfInterest(PointOfInterestType typeOfPoI)
 {
-	
 	switch (typeOfPoI)
 	{
 	case Hospital:
@@ -31,23 +32,41 @@ FVector3d AWJPointOfInterestAssistant::GetPointOfInterest(PointOfInterestType ty
 void AWJPointOfInterestAssistant::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UWorld* world = GetWorld();
+	UGameplayStatics::GetAllActorsWithTag(world, "Restaurant", Restaurants);
+	UGameplayStatics::GetAllActorsWithTag(world, "CultBase", CultBases);
+	UGameplayStatics::GetAllActorsWithTag(world, "Hospital", Hospitals);
 }
 
 FVector3d AWJPointOfInterestAssistant::GetHospitalLocationVector()
 {
-	int chance = FMath::RandRange(0, Hospitals.Num()-1);
-	return Hospitals[chance]->GetTransform().GetLocation();
+	if(!Hospitals.IsEmpty())
+	{
+		int chance = FMath::RandRange(0, Hospitals.Num()-1);
+		return Hospitals[chance]->GetTransform().GetLocation();
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Cant find hospital"));
+	return FVector3d().Zero();
 }
 
 FVector3d AWJPointOfInterestAssistant::GetRestaurantLocationVector()
 {
-	int chance = FMath::RandRange(0, Restaurants.Num()-1);
-	return Restaurants[chance]->GetTransform().GetLocation();
+	if(!Restaurants.IsEmpty())
+	{
+		int chance = FMath::RandRange(0, Restaurants.Num()-1);
+		return Restaurants[chance]->GetTransform().GetLocation();
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Cant find restaurant"));
+	return FVector3d().Zero();
 }
 
 FVector3d AWJPointOfInterestAssistant::GetCultBaseLocationVector()
 {
-	int chance = FMath::RandRange(0, CultBases.Num()-1);
-	return CultBases[chance]->GetTransform().GetLocation();
+	if(!CultBases.IsEmpty())
+	{
+		int chance = FMath::RandRange(0, CultBases.Num()-1);
+		return CultBases[chance]->GetTransform().GetLocation();
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("Cant find Cult base"));
+	return FVector3d().Zero();
 }

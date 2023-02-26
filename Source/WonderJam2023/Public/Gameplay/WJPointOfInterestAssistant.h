@@ -24,11 +24,11 @@ public:
 	AWJPointOfInterestAssistant();
 
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Point of Interest")
+	UPROPERTY(EditAnywhere, Category= "Point of Interest")
 	TArray<AActor*> Hospitals;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Point of Interest")
+	UPROPERTY(EditAnywhere, Category= "Point of Interest")
 	TArray<AActor*> Restaurants;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Point of Interest")
+	UPROPERTY(EditAnywhere, Category= "Point of Interest")
 	TArray<AActor*> CultBases;
 
 	UFUNCTION()
@@ -37,6 +37,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	
+private:
 	FVector3d GetHospitalLocationVector();
 	FVector3d GetRestaurantLocationVector();
 	FVector3d GetCultBaseLocationVector();

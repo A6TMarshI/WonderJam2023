@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Controller/WJCultController.h"
 #include "GameFramework/Character.h"
+#include "Gameplay/WJPointOfInterestAssistant.h"
 #include "WJCultCharacter.generated.h"
 
 
@@ -48,7 +49,7 @@ public:
 
 	bool bIsTargeted = false;
 
-
+	AWJPointOfInterestAssistant* PointOfInterestAssistant;
 	void Arrest();
 	void HasEaten();
 	void ResetFoodModifier();
