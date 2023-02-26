@@ -48,6 +48,7 @@ public:
 
 	bool bIsTargeted = false;
 
+	bool bisLuckyToConvert = false;
 
 	void Arrest();
 	void HasEaten();
