@@ -98,8 +98,7 @@ void AWJCultCharacter::BeginPlay()
 	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), false);
 	
 	world = GetWorld();
-	GetWorld()->GetTimerManager().SetTimer(NeedTimerHandle, this, &AWJCultCharacter::UpdateNeed, DecreaseNeedTime, true
-		);
+	GetWorld()->GetTimerManager().SetTimer(NeedTimerHandle, this, &AWJCultCharacter::UpdateNeed, DecreaseNeedTime, true );
 	
 }
 
