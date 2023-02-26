@@ -7,6 +7,8 @@
 #include "GameFramework/Character.h"
 #include "WJCultCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCultArrestedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConvertedToCult);
 
 UCLASS()
 class WONDERJAM2023_API AWJCultCharacter : public ACharacter
@@ -48,6 +50,9 @@ public:
 
 	bool bIsTargeted = false;
 
+	UPROPERTY(EditAnywhere)
+	bool bIsArrested = false;
+
 
 	void Arrest();
 	void HasEaten();
@@ -58,6 +63,15 @@ public:
 	void Heal();
 	void Hurt();
 	void ConvertToCult();
+	UFUNCTION(BlueprintCallable)
+	void ResetArrestedStatus();
+
+	UPROPERTY(BlueprintAssignable)
+	FOnCultArrestedDelegate OnCultArrestedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnConvertedToCult OnConvertedToCult;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -76,7 +90,7 @@ protected:
 
 	void UpdateNeed();
 
-	void ResetArrestedStatus();
+	
 	bool CharacterNeedToEat() const;
 	void GoToRestaurant();
 	bool CharacterNeedToPray() const;
@@ -89,4 +103,5 @@ protected:
 	
 	UPROPERTY(EditAnywhere)
 	bool bIsConvertedToCult = false;
+
 };

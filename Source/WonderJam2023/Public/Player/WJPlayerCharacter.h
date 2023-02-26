@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "InputActionValue.h"
+#include "Characters/WJCultCharacter.h"
 #include "GameFramework/Pawn.h"
 #include "WJPlayerCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClickedCultArested, AWJCultCharacter*, CultCharacter);
 
 UCLASS()
 class WONDERJAM2023_API AWJPlayerCharacter : public APawn
@@ -42,6 +44,9 @@ public:
 	
 	UFUNCTION()
 	void InputInteract(const FInputActionValue& Value);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnClickedCultArested OnClickedCultArested;
 
 protected:
 	// Called when the game starts or when spawned
