@@ -23,7 +23,7 @@ AWJClickable::AWJClickable()
 	ParticleCount=0;
 }
 
-int AWJClickable::SpawnParticles()
+void AWJClickable::SpawnParticles()
 {
 	
 	if (Particle != nullptr && FMath::RandRange(0,10)==0 && ParticleCount<3)
@@ -39,7 +39,7 @@ int AWJClickable::SpawnParticles()
 		{
 			UGameplayStatics::PlaySound2D( GetWorld(), SparkSound);
 		}
-		return ++ParticleCount;
+		++ParticleCount;
 	}
 	if(ParticleCount==3)
 	{
@@ -53,11 +53,32 @@ int AWJClickable::SpawnParticles()
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), ExplosionSound);
 		}
-		return ++ParticleCount;
+
+		ClickTimerHandle.Invalidate();
+		GetWorld()->GetTimerManager().SetTimer(ClickTimerHandle, [this]()
+		{
+			OnClickableDestroyedDelegate.Broadcast();
+			this->Destroy();
+		},  ExplosionDelay, false);
+		ParticleCount++;
 	}
-	
-	return ParticleCount;
 }
+
+void AWJClickable::StartClickTimer()
+{
+	GetWorld()->GetTimerManager().SetTimer(ClickTimerHandle, this, &ThisClass::HandleClickTimer, 1,true);
+}
+
+void AWJClickable::HandleClickTimer()
+{
+	OnClickedDelegate.Broadcast();
+}
+
+void AWJClickable::StopClickTimer()
+{
+	GetWorld()->GetTimerManager().ClearTimer(ClickTimerHandle);
+}
+
 
 void AWJClickable::BeginPlay()
 {

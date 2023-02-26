@@ -93,18 +93,7 @@ void AWJPlayerCharacter::InputInteract(const FInputActionValue& Value)
 				GEngine->AddOnScreenDebugMessage(-1,220,FColor::Cyan,FString::Printf(TEXT("Clicked on actor : %s"), *HitActor->GetName()));
 			if(auto* Clickable = Cast<AWJClickable>(HitActor))
 			{
-				if(Clickable->SpawnParticles()==3)
-				{
-					FTimerHandle TimerHandle;
-
-					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [Clickable,this]()
-					{
-						OnClickableDestroyedDelegate.Broadcast();
-						Clickable->Destroy();
-					},  Clickable->ExplosionDelay, false);
-					
-				}
-					
+				Clickable->StartClickTimer();
 			}
 		}
 	}
