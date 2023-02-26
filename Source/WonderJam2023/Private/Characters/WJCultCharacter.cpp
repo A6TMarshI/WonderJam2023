@@ -86,6 +86,7 @@ void AWJCultCharacter::ConvertToCult()
 {
 	bIsConvertedToCult = true;
 	MeshComponent->SetSkeletalMesh(CultMesh);
+	OnConvertedToCult.Broadcast();
 }
 
 // Called when the game starts or when spawned

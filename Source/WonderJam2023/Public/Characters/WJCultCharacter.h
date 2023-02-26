@@ -8,6 +8,7 @@
 #include "WJCultCharacter.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCultArrestedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnConvertedToCult);
 
 UCLASS()
 class WONDERJAM2023_API AWJCultCharacter : public ACharacter
@@ -67,6 +68,10 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnCultArrestedDelegate OnCultArrestedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnConvertedToCult OnConvertedToCult;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
