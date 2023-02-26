@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "WJPlayerCharacter.generated.h"
 
+
 UCLASS()
 class WONDERJAM2023_API AWJPlayerCharacter : public APawn
 {
@@ -23,6 +24,7 @@ class WONDERJAM2023_API AWJPlayerCharacter : public APawn
 	/** Movement Component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UFloatingPawnMovement* MovementComponent;
+
 
 	
 

@@ -7,6 +7,9 @@
 #include "GameFramework/Actor.h"
 #include "WJClickable.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClickedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClickableDestroyedDelegate);
+
 class UWJClickableParticlesSpawn;
 UCLASS()
 class WONDERJAM2023_API AWJClickable : public AActor
@@ -16,15 +19,31 @@ class WONDERJAM2023_API AWJClickable : public AActor
 public:
 	AWJClickable();
 
-	int SpawnParticles();
+	UFUNCTION(BlueprintCallable)
+	void SpawnParticles();
 
 	UPROPERTY(EditAnywhere, Category="Delay")
 	int ExplosionDelay;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnClickedDelegate OnClickedDelegate;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnClickableDestroyedDelegate OnClickableDestroyedDelegate;
+
+	void StartClickTimer();
+
 protected:
 	virtual void BeginPlay() override;
-protected:
+	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	FTimerHandle ClickTimerHandle;
+
+	void HandleClickTimer();
+
+	void StopClickTimer();
+	
 	UPROPERTY(EditAnywhere, Category = "Sound")
 	class USoundBase* SparkSound;
 
