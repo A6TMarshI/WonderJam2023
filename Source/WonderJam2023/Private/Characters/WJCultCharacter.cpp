@@ -8,8 +8,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/SphereComponent.h"
 #include "Gameplay/WJPointOfInterestAssistant.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-
 
 // Sets default values
 AWJCultCharacter::AWJCultCharacter()
@@ -24,6 +24,9 @@ AWJCultCharacter::AWJCultCharacter()
 	ChaseSphereCollider->SetGenerateOverlapEvents(true);
 	ChaseSphereCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 	ChaseSphereCollider->bHiddenInGame = true;
+
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bOrientRotationToMovement=true;
 }
 
 void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
