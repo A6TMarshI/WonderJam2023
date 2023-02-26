@@ -103,7 +103,7 @@ void AWJCultCharacter::BeginPlay()
 	
 	world = GetWorld();
 	UGameplayStatics::GetAllActorsWithTag(world, "PoIAssistant", FoundPointOfInterest);
-	if(FoundPointOfInterest.IsEmpty())
+	if(!FoundPointOfInterest.IsEmpty())
 	{
 		PointOfInterestAssistant = Cast<AWJPointOfInterestAssistant>(FoundPointOfInterest[0]);
 	}
