@@ -28,22 +28,30 @@ void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedCom
 {
 	if(bIsConvertedToCult)
 	{
-		auto Target = Cast<AWJCultCharacter>(OtherActor);
-		if (!Target->GetIsConverted() && !Target->bIsTargeted)
+		if(auto Target = Cast<AWJCultCharacter>(OtherActor))
 		{
-			//auto AIController = Cast<AWJCultController>(GetController());
-			if (AIController)
+			if (!Target->GetIsConverted() && !Target->bIsTargeted)
 			{
-				if(!AIController->TargetToConvert)
+				// AIController = Cast<AWJCultController>(GetController());
+				if (AIController)
 				{
-					Target->bIsTargeted = true;
-					AIController->TargetToConvert = Target;
-					AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsObject(FName("TargetToConvert"), Target);
-					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("New Target Set"));
+					if(!AIController->TargetToConvert)
+					{
+						Target->bIsTargeted = true;
+						AIController->TargetToConvert = Target;
+						AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsObject(FName("TargetToConvert"), Target);
+						GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("New Target to Convert"));
+					}
 				}
 			}
 		}
 	}
+}
+
+void AWJCultCharacter::Arrest()
+{
+	bIsConvertedToCult = false;
+	GetWorld()->GetTimerManager().SetTimer(ArrestDebuffTimerHandle, this, &AWJCultCharacter::ResetArrestedStatus, 10, false);
 }
 
 void AWJCultCharacter::HasEaten()
@@ -100,6 +108,11 @@ void AWJCultCharacter::UpdateNeed()
 	Food += FoodRateModifier;
 	Faith += FaithRateModifier;
 	UpdateBehaviourToNeed();
+}
+
+void AWJCultCharacter::ResetArrestedStatus()
+{
+	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsArrested"), false);
 }
 
 bool AWJCultCharacter::CharacterNeedToEat() const

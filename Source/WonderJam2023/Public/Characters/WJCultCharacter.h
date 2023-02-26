@@ -49,6 +49,7 @@ public:
 	bool bIsTargeted = false;
 
 
+	void Arrest();
 	void HasEaten();
 	void ResetFoodModifier();
 	void ResetPrayingModifier();
@@ -66,6 +67,7 @@ protected:
 	FTimerHandle NeedTimerHandle;
 	FTimerHandle EatenBuffTimerHandle;
 	FTimerHandle PrayedBuffTimerHandle;
+	FTimerHandle ArrestDebuffTimerHandle;
 	FTimerDelegate TimerDelegate;
 	UWorld* world;
 	TArray<AActor*> FoundPointOfInterest;
@@ -74,6 +76,7 @@ protected:
 
 	void UpdateNeed();
 
+	void ResetArrestedStatus();
 	bool CharacterNeedToEat() const;
 	void GoToRestaurant();
 	bool CharacterNeedToPray() const;
