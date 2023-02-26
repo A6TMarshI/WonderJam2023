@@ -15,7 +15,7 @@ EBTNodeResult::Type UWJTaskTryConvert::ExecuteTask(UBehaviorTreeComponent& Owner
 		{
 			auto AITargetController = Cast<AWJCultController>(OwnerController->TargetToConvert->GetController());
 			int chance = FMath::RandRange(1, 4);
-			if(chance == 1)
+			if(chance == 1 && !OwnerController->TargetToConvert->bIsArrested)
 			{
 				OwnerController->TargetToConvert->ConvertToCult();
 				AITargetController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsConvertedToCult"), true);

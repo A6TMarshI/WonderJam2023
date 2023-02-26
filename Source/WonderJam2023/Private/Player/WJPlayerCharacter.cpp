@@ -6,6 +6,7 @@
 
 
 #include "Camera/CameraComponent.h"
+#include "Characters/WJCultCharacter.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Gameplay/Clickable/WJClickable.h"
@@ -79,6 +80,7 @@ void AWJPlayerCharacter::InputInteract(const FInputActionValue& Value)
 
 	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
 	ObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic));
+	ObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
 	
 	FHitResult HitResult;
 	PlayerController->GetHitResultUnderCursorForObjects(ObjectTypes, false, HitResult);
@@ -89,11 +91,14 @@ void AWJPlayerCharacter::InputInteract(const FInputActionValue& Value)
 
 		if (HitActor)
 		{
-			if(GEngine)
-				GEngine->AddOnScreenDebugMessage(-1,220,FColor::Cyan,FString::Printf(TEXT("Clicked on actor : %s"), *HitActor->GetName()));
 			if(auto* Clickable = Cast<AWJClickable>(HitActor))
 			{
 				Clickable->StartClickTimer();
+			}
+			if(auto* Cult = Cast<AWJCultCharacter>(HitActor))
+			{
+				if(!Cult->bIsArrested)return;
+				OnClickedCultArested.Broadcast(Cult);
 			}
 		}
 	}

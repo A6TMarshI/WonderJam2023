@@ -14,7 +14,7 @@ EBTNodeResult::Type UWJTaskTryArrest::ExecuteTask(UBehaviorTreeComponent& OwnerC
 		{
 			if(!AITargetController->BehaviorTreeComponent->GetBlackboardComponent()->GetValueAsBool(FName("IsArrested")))
 			{
-					int chance = FMath::RandRange(1, 4);
+					int chance = FMath::RandRange(1, 10);
                		if(chance == 1)
                		{
                			AWJCultCharacter* character = Cast<AWJCultCharacter>(AITargetController->GetCharacter());
@@ -23,10 +23,10 @@ EBTNodeResult::Type UWJTaskTryArrest::ExecuteTask(UBehaviorTreeComponent& OwnerC
                			AITargetController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsArrested"), true);
                			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Arrested"));
                		}
-               		OwnerComp.GetBlackboardComponent()->ClearValue(FName("TargetToArrest"));
-               		OwnerController->TargetToArrest->bIsTargeted = false;
-               		OwnerController->TargetToArrest = nullptr;
 			}
+			OwnerComp.GetBlackboardComponent()->ClearValue(FName("TargetToArrest"));
+			OwnerController->TargetToArrest->bIsTargeted = false;
+			OwnerController->TargetToArrest = nullptr;
 		
 			return EBTNodeResult::Succeeded;
 		}
