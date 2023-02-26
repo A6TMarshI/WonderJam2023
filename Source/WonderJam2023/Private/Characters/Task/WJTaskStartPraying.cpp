@@ -12,7 +12,7 @@ EBTNodeResult::Type UWJTaskStartPraying::ExecuteTask(UBehaviorTreeComponent& Own
 		{
 			if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
 			{
-				//Fire Animation ?
+				AICharacter->OnPray(5);
 				AICharacter->bisLuckyToConvert = true;
 				OwnerController->BehaviorTreeComponent->GetBlackboardComponent()->ClearValue(FName("SacrifyLocation"));
 				return EBTNodeResult::Succeeded;

@@ -12,12 +12,22 @@
 EBTNodeResult::Type UWJTaskStopTalkersMoving::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	if(auto* OwnerController = Cast<AWJCultController>(OwnerComp.GetOwner()))
+	{
+		if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
 		{
-			auto AITargetController = Cast<AWJCultController>(OwnerController->TargetToConvert->GetController());
-			AITargetController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), true);
-			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), false);
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("ready to talk"));
-			return EBTNodeResult::Succeeded;
+			if (auto* AITargetController = Cast<AWJCultController>(OwnerController->TargetToConvert->GetController()))
+			{
+				if(auto* AITargetCharacter = Cast<AWJCultCharacter>(AITargetController->GetCharacter()))
+				{
+					AITargetController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), true);
+					OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), true);
+					AICharacter->OnTalk(5);
+					AITargetCharacter->OnTalk(5);
+					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("ready to talk"));
+					return EBTNodeResult::Succeeded;
+				}
+			}
 		}
+	}
 	return EBTNodeResult::Failed;
 }

@@ -18,6 +18,7 @@ EBTNodeResult::Type UWJTaskMoveToRestaurant::ExecuteTask(UBehaviorTreeComponent&
 		if(auto* AICharacter = Cast<AWJCultCharacter>(OwnerController->GetCharacter()))
 		{
 			AICharacter->Food = 100;
+			AICharacter->OnIdle(5);
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Has eaten"));
 			OwnerComp.GetBlackboardComponent()->SetValueAsBool(FName("bNeedToEat"), false);
 			return EBTNodeResult::Succeeded;
