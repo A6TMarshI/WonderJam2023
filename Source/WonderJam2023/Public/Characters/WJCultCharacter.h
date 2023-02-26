@@ -17,8 +17,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="AI")
 	class UBehaviorTree* BehaviorTree;
-	
-	void Convert();
 
 	//set up sphere collider to seek for non converted;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sphere Collider")
@@ -33,6 +31,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	USkeletalMesh* CultMesh;
+
+	bool bIsTargeted = false;
 
 	bool GetIsConverted();
 

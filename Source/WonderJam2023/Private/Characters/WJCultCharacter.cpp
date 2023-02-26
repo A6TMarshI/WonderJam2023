@@ -16,17 +16,13 @@ AWJCultCharacter::AWJCultCharacter()
 	PrimaryActorTick.bCanEverTick = false;
 	MeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	MeshComponent->SetupAttachment(RootComponent);
-	ChaseSphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
+	
+	ChaseSphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Chase Sphere Collider"));
 	ChaseSphereCollider->SetupAttachment(RootComponent);
-	ChaseSphereCollider->SetSphereRadius(700.f);
+	ChaseSphereCollider->SetSphereRadius(600.f);
 	ChaseSphereCollider->SetGenerateOverlapEvents(true);
 	ChaseSphereCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 	ChaseSphereCollider->bHiddenInGame = true;
-}
-
-
-void AWJCultCharacter::Convert()
-{
 }
 
 void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -34,13 +30,18 @@ void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedCom
 	if(bIsConvertedToCult)
 	{
 		auto Target = Cast<AWJCultCharacter>(OtherActor);
-		if (!Target->GetIsConverted())
+		if (!Target->GetIsConverted() && !Target->bIsTargeted)
 		{
 			auto AIController = Cast<AWJCultController>(GetController());
 			if (AIController)
 			{
-				AIController->TargetToConvert = Target;
-				AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsObject(FName("TargetToConvert"), Target);
+				if(!AIController->TargetToConvert)
+				{
+					Target->bIsTargeted = true;
+					AIController->TargetToConvert = Target;
+					AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsObject(FName("TargetToConvert"), Target);
+					GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("New Target Set"));
+				}
 			}
 		}
 	}
@@ -62,6 +63,9 @@ void AWJCultCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	ChaseSphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AWJCultCharacter::OnNonConvertedDetected);
+	auto AIController = Cast<AWJCultController>(GetController());
+	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsConvertedToCult"), bIsConvertedToCult);
+	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsReadyToTalk"), false);
 }
 
 
