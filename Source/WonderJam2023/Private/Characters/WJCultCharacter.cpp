@@ -50,8 +50,9 @@ void AWJCultCharacter::OnNonConvertedDetected(UPrimitiveComponent* OverlappedCom
 
 void AWJCultCharacter::Arrest()
 {
+	bIsArrested = true;
 	bIsConvertedToCult = false;
-	GetWorld()->GetTimerManager().SetTimer(ArrestDebuffTimerHandle, this, &AWJCultCharacter::ResetArrestedStatus, 10, false);
+	OnCultArrestedDelegate.Broadcast();
 }
 
 void AWJCultCharacter::HasEaten()
@@ -113,6 +114,7 @@ void AWJCultCharacter::UpdateNeed()
 void AWJCultCharacter::ResetArrestedStatus()
 {
 	AIController->BehaviorTreeComponent->GetBlackboardComponent()->SetValueAsBool(FName("IsArrested"), false);
+	bIsArrested = false;
 }
 
 bool AWJCultCharacter::CharacterNeedToEat() const
