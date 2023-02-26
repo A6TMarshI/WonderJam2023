@@ -7,6 +7,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/WJCultCharacter.h"
 #include "Components/SphereComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 AWJCopsCharacter::AWJCopsCharacter()
@@ -19,6 +20,9 @@ AWJCopsCharacter::AWJCopsCharacter()
 	ChaseSphereCollider->SetGenerateOverlapEvents(true);
 	ChaseSphereCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 	ChaseSphereCollider->bHiddenInGame = true;
+
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bOrientRotationToMovement=true;
 }
 
 void AWJCopsCharacter::OnCultDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
