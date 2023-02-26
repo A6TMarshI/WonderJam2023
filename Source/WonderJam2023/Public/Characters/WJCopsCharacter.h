@@ -7,7 +7,6 @@
 #include "GameFramework/Character.h"
 #include "WJCopsCharacter.generated.h"
 
-class UBehaviorTree;
 UCLASS()
 class WONDERJAM2023_API AWJCopsCharacter : public ACharacter
 {
@@ -19,6 +18,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category="AI")
 	class UBehaviorTree* BehaviorTree;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sphere Collider")
+	class USphereComponent* ChaseSphereCollider;
+
+	UFUNCTION()
+	void OnCultDetected(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 protected:
 	// Called when the game starts or when spawned

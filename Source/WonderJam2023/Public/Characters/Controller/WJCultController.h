@@ -18,10 +18,6 @@ class WONDERJAM2023_API AWJCultController : public AAIController
 public:
 	AWJCultController(const FObjectInitializer& ObjectInitializer);
 
-	/** Calls the convert function of controlled pawn */
-	UFUNCTION(BlueprintCallable, Category = "Convert")
-	void StartConvert();
-
 	UPROPERTY(Transient)
 	class UBehaviorTreeComponent* BehaviorTreeComponent;
 
